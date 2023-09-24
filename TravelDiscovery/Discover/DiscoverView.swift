@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+extension Color {
+    static let discoverBackground = Color(white: 0.95, opacity: 1)
+}
+
 struct DiscoverView: View {
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [
@@ -20,7 +24,7 @@ struct DiscoverView: View {
                 LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9882131219, green: 0.6823856831, blue: 0.2509839535, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.5366613865, blue: 0.2347321808, alpha: 1))]), startPoint: .top, endPoint: .center)
                     .ignoresSafeArea()
                 
-                Color(UIColor(white: 0.95, alpha: 1))
+                Color.discoverBackground
                     .offset(y: 400)
                 
                 ScrollView {
@@ -43,7 +47,7 @@ struct DiscoverView: View {
                         PopularRestaurantsView()
                         TrendingCreatorsView()
                     }
-                    .background(Color(UIColor(white: 0.95, alpha: 1)))
+                    .background(Color.discoverBackground)
                     .cornerRadius(16)
                     .padding(.top, 32)
                 }
