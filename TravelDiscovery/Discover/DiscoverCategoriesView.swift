@@ -20,32 +20,95 @@ struct DiscoverCategoriesView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .top, spacing: 14) {
                 ForEach(categories, id: \.self) { category in
-                    VStack(spacing: 8) {
-                        Image(systemName: category.imageName)
-                            .font(.system(size: 25))
-                            .foregroundColor(Color(UIColor(red: 240/255, green: 147/255, blue: 80/255, alpha: 1)))
-                            .frame(width: 64, height: 64)
-                            .background(Color.white)
-                            .cornerRadius(.infinity)
-                        
-                        Text(category.name)
-                            .font(.system(size: 12, weight: .semibold))
-                            .multilineTextAlignment(.center)
-                            .foregroundColor(.white)
+                    /*
+                    NavigationLink(
+                        destination: CategoryDetailsView(),
+                        label: {
+                            VStack(spacing: 8) {
+                                Image(systemName: category.imageName)
+                                    .font(.system(size: 25))
+                                    .foregroundColor(Color(UIColor(red: 240/255, green: 147/255, blue: 80/255, alpha: 1)))
+                                    .frame(width: 64, height: 64)
+                                    .background(Color.white)
+                                    .cornerRadius(.infinity)
+
+                                Text(category.name)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 68)
+                        }
+                    )
+                    */
+                    NavigationLink(value: category) {
+                        VStack(spacing: 8) {
+                            Image(systemName: category.imageName)
+                                .font(.system(size: 25))
+                                .foregroundColor(Color(UIColor(red: 240/255, green: 147/255, blue: 80/255, alpha: 1)))
+                                .frame(width: 64, height: 64)
+                                .background(Color.white)
+                                .cornerRadius(.infinity)
+                            
+                            Text(category.name)
+                                .font(.system(size: 12, weight: .semibold))
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 68)
                     }
-                    .frame(width: 68)
                 }
             }
             .padding(.horizontal)
         }
+        .navigationDestination(for: Category.self) { _ in
+            CategoryDetailsView()
+        }
+    }
+}
+
+struct CategoryDetailsView: View {
+    var body: some View {
+        ScrollView {
+            ForEach(0..<5, id: \.self) { num in
+                VStack(alignment: .leading, spacing: 0) {
+                    Image("art1")
+                        .resizable()
+                        .scaledToFill()
+                    Text("Demo")
+                        .font(.system(size: 12, weight: .semibold))
+                        .padding()
+                }
+                .asTile()
+                .padding()
+            }
+        }
+        .navigationTitle("Category")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(Color.clear, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
     }
 }
 
 struct DiscoverCategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack {
-            Color.orange
-            DiscoverCategoriesView()
+//        ZStack {
+//            Color.orange
+//            DiscoverCategoriesView()
+//        }
+        NavigationStack {
+            CategoryDetailsView()
         }
+        DiscoverView()
+        /*
+        NavigationView {
+            NavigationLink(
+                destination: Text("Destination"),
+                label: {
+                    Text("Link")
+                }
+            )
+        }
+        */
     }
 }

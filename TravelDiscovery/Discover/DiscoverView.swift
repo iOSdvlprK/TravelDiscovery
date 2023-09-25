@@ -13,9 +13,15 @@ extension Color {
 
 struct DiscoverView: View {
     init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [
-            .foregroundColor: UIColor.white
-        ]
+//        UINavigationBar.appearance().largeTitleTextAttributes = [
+//            .foregroundColor: UIColor.white
+//        ]
+        
+        // https://stackoverflow.com/a/74369067/4999901
+        let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = coloredAppearance
     }
     
     var body: some View {
