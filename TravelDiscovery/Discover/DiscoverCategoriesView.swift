@@ -67,20 +67,6 @@ struct DiscoverCategoriesView: View {
     }
 }
 
-class CategoryDetailsViewModel: ObservableObject {
-    @Published var isLoading = true
-    @Published var places = [Int]()
-    
-    init() {
-        // network code will happen here
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.isLoading = false
-//            self.places = [1, 2, 3, 4, 5, 6, 7]
-            self.places = (0..<7).map { $0 }
-        }
-    }
-}
-
 struct ActivityIndicatorView: UIViewRepresentable {
     func makeUIView(context: Context) -> some UIActivityIndicatorView {
         let aiv = UIActivityIndicatorView(style: .large)
@@ -90,6 +76,39 @@ struct ActivityIndicatorView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
+    }
+}
+
+struct Place: Decodable, Hashable {
+    let name, thumbnail: String
+}
+
+class CategoryDetailsViewModel: ObservableObject {
+    @Published var isLoading = true
+    @Published var places = [Place]()
+    
+    @Published var errorMessage = ""
+    
+    init() {
+        // network code will happen here
+        guard let url = URL(string: "https://travel.letsbuildthatapp.com/travel_discovery/category?name=art") else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, resp, err in
+            // check resp statusCode and err
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let data = data else { return }
+                
+                do {
+                    self.places = try JSONDecoder().decode([Place].self, from: data)
+                } catch {
+                    print("Failed to decode JSON:", error)
+                    self.errorMessage = error.localizedDescription
+                }
+                
+                self.isLoading = false
+            }
+        }.resume()
     }
 }
 
@@ -110,18 +129,21 @@ struct CategoryDetailsView: View {
                 .background(Color(white: 0.1, opacity: 0.8))
                 .cornerRadius(8)
             } else {
-                ScrollView {
-                    ForEach(vm.places, id: \.self) { num in
-                        VStack(alignment: .leading, spacing: 0) {
-                            Image("art1")
-                                .resizable()
-                                .scaledToFill()
-                            Text("Demo")
-                                .font(.system(size: 12, weight: .semibold))
-                                .padding()
+                ZStack {
+                    ScrollView {
+                        Text(vm.errorMessage)
+                        ForEach(vm.places, id: \.self) { place in
+                            VStack(alignment: .leading, spacing: 0) {
+                                Image("art1")
+                                    .resizable()
+                                    .scaledToFill()
+                                Text(place.name)
+                                    .font(.system(size: 12, weight: .semibold))
+                                    .padding()
+                            }
+                            .asTile()
+                            .padding()
                         }
-                        .asTile()
-                        .padding()
                     }
                 }
             }
