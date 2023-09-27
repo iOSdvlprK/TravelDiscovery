@@ -15,12 +15,22 @@ class CategoryDetailsViewModel: ObservableObject {
     
     @Published var errorMessage = ""
     
-    init() {
-        // network code will happen here
-        guard let url = URL(string: "https://travel.letsbuildthatapp.com/travel_discovery/category?name=art") else { return }
+    init(name: String) {
+        // network code
+        let urlString = "https://travel.letsbuildthatapp.com/travel_discovery/category?name=\(name.lowercased())".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        
+        guard let url = URL(string: urlString) else {
+            self.isLoading = false
+            return
+        }
         
         URLSession.shared.dataTask(with: url) { data, resp, err in
             // check resp statusCode and err
+            if let statusCode = (resp as? HTTPURLResponse)?.statusCode, statusCode >= 400 {
+                self.isLoading = false
+                self.errorMessage = "Bad status: \(statusCode)"
+                return
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 guard let data = data else { return }
@@ -39,8 +49,13 @@ class CategoryDetailsViewModel: ObservableObject {
 }
 
 struct CategoryDetailsView: View {
-//    @State private var isLoading = false
-    @ObservedObject var vm = CategoryDetailsViewModel()
+    private let name: String
+    @ObservedObject private var vm: CategoryDetailsViewModel
+    
+    init(name: String) {
+        self.name = name
+        self.vm = .init(name: name)
+    }
     
     var body: some View {
         ZStack {
@@ -56,8 +71,15 @@ struct CategoryDetailsView: View {
                 .cornerRadius(8)
             } else {
                 ZStack {
+                    if !vm.errorMessage.isEmpty {
+                        VStack {
+                            Image(systemName: "xmark.octagon.fill")
+                                .font(.system(size: 64, weight: .semibold))
+                                .foregroundColor(.red)
+                            Text(vm.errorMessage)
+                        }
+                    }
                     ScrollView {
-                        Text(vm.errorMessage)
                         ForEach(vm.places, id: \.self) { place in
                             VStack(alignment: .leading, spacing: 0) {
 //                                KFImage(URL(string: place.thumbnail))
@@ -75,7 +97,7 @@ struct CategoryDetailsView: View {
                 }
             }
         }
-        .navigationTitle("Category")
+        .navigationTitle(name)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.clear, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -85,7 +107,7 @@ struct CategoryDetailsView: View {
 struct CategoryDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CategoryDetailsView()            
+            CategoryDetailsView(name: "Food")
         }
     }
 }
