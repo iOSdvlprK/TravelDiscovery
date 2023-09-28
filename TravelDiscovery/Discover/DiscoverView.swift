@@ -19,6 +19,7 @@ struct DiscoverView: View {
         
         // https://stackoverflow.com/a/74369067/4999901
         let coloredAppearance = UINavigationBarAppearance()
+        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         
         UINavigationBar.appearance().standardAppearance = coloredAppearance

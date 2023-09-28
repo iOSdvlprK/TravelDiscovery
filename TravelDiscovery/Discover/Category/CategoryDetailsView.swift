@@ -25,14 +25,14 @@ class CategoryDetailsViewModel: ObservableObject {
         }
         
         URLSession.shared.dataTask(with: url) { data, resp, err in
-            // check resp statusCode and err
-            if let statusCode = (resp as? HTTPURLResponse)?.statusCode, statusCode >= 400 {
-                self.isLoading = false
-                self.errorMessage = "Bad status: \(statusCode)"
-                return
-            }
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                // check resp statusCode and err
+                if let statusCode = (resp as? HTTPURLResponse)?.statusCode, statusCode >= 400 {
+                    self.isLoading = false
+                    self.errorMessage = "Bad status: \(statusCode)"
+                    return
+                }
+
                 guard let data = data else { return }
                 
                 do {
@@ -53,6 +53,7 @@ struct CategoryDetailsView: View {
     @ObservedObject private var vm: CategoryDetailsViewModel
     
     init(name: String) {
+        print("Loaded CategoryDetailsView and making a network request for \(name)")
         self.name = name
         self.vm = .init(name: name)
     }
