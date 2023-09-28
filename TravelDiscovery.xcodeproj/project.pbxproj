@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D800000A2AC5C5B700CD8472 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80000092AC5C5B700CD8472 /* Extensions.swift */; };
 		D839EA9E2ABEBD1C006BA225 /* TravelDiscoveryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839EA9D2ABEBD1C006BA225 /* TravelDiscoveryApp.swift */; };
 		D839EAA02ABEBD1C006BA225 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D839EA9F2ABEBD1C006BA225 /* DiscoverView.swift */; };
 		D839EAA22ABEBD1E006BA225 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D839EAA12ABEBD1E006BA225 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D80000092AC5C5B700CD8472 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D839EA9A2ABEBD1C006BA225 /* TravelDiscovery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelDiscovery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D839EA9D2ABEBD1C006BA225 /* TravelDiscoveryApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelDiscoveryApp.swift; sourceTree = "<group>"; };
 		D839EA9F2ABEBD1C006BA225 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			children = (
 				D839EABF2AC0B975006BA225 /* TileModifier.swift */,
 				D8AE4D232AC31DF8009BB0C1 /* ActivityIndicatorView.swift */,
+				D80000092AC5C5B700CD8472 /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				D839EABB2AC08757006BA225 /* Category.swift in Sources */,
 				D839EAA02ABEBD1C006BA225 /* DiscoverView.swift in Sources */,
 				D839EA9E2ABEBD1C006BA225 /* TravelDiscoveryApp.swift in Sources */,
+				D800000A2AC5C5B700CD8472 /* Extensions.swift in Sources */,
 				D839EABD2AC08771006BA225 /* User.swift in Sources */,
 				D839EAB72AC086D7006BA225 /* Destination.swift in Sources */,
 				D8AE4D242AC31DF8009BB0C1 /* ActivityIndicatorView.swift in Sources */,
