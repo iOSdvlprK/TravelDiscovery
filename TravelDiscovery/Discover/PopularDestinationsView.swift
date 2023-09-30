@@ -49,7 +49,7 @@ struct PopularDestinationDetailsView: View {
     let destination: Destination
     
     @State private var region: MKCoordinateRegion
-    @State private var isShowingAttractions = false
+    @State private var isShowingAttractions = true
     
     init(destination: Destination) {
         self.destination = destination
@@ -100,11 +100,11 @@ struct PopularDestinationDetailsView: View {
             }
             .padding(.horizontal)
             
-//            Map(coordinateRegion: $region)
-//                .frame(height: 300)
-            
             Map(coordinateRegion: $region, annotationItems: isShowingAttractions ? attractions : []) { attraction in
-                MapMarker(coordinate: CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude), tint: .red)
+//                MapMarker(coordinate: CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude), tint: .red)
+                MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude)) {
+                    CustomMapAnnotation(attraction: attraction)
+                }
             }
             .frame(height: 300)
         }
@@ -114,16 +114,45 @@ struct PopularDestinationDetailsView: View {
     }
     
     let attractions = [
-        Attraction(name: "Eiffel Tower", latitude: 48.858605, longitude: 2.2946),
-        Attraction(name: "Champs-Elysees", latitude: 48.866867, longitude: 2.311780),
-        Attraction(name: "Louvre Museum", latitude: 48.860288, longitude: 2.337789)
+        Attraction(name: "Eiffel Tower", imageName: "eiffel_tower", latitude: 48.858605, longitude: 2.2946),
+        Attraction(name: "Champs-Elysees", imageName: "new_york", latitude: 48.866867, longitude: 2.311780),
+        Attraction(name: "Louvre Museum", imageName: "art2", latitude: 48.860288, longitude: 2.337789)
     ]
+}
+
+struct CustomMapAnnotation: View {
+    let attraction: Attraction
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            Image(attraction.imageName)
+                .resizable()
+                .frame(width: 80, height: 60)
+                .cornerRadius(4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color(white:0, opacity: 0.5))
+                )
+            Text(attraction.name)
+                .font(.system(size: 12, weight: .semibold))
+                .padding(.horizontal, 6)
+                .padding(.vertical, 4)
+                .background(LinearGradient(colors: [Color.red, Color.blue], startPoint: .leading, endPoint: .trailing))
+                .foregroundColor(.white)
+                .cornerRadius(4)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                        .stroke(Color(white:0, opacity: 0.5))
+                )
+        }
+        .shadow(radius: 5)
+    }
 }
 
 struct Attraction: Identifiable {
     let id = UUID().uuidString
     
-    let name: String
+    let name, imageName: String
     let latitude, longitude: Double
 }
 
