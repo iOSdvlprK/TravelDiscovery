@@ -62,8 +62,8 @@ struct PopularDestinationDetailsView: View {
 //            Image(destination.imageName)
 //                .resizable()
 //                .scaledToFill()
-            DestinationHeaderContainer()
-                .frame(height: 250)
+            DestinationHeaderContainer(imageNames: ["eiffel_tower", "art1", "art2"])
+                .frame(height: 350)
             
             VStack(alignment: .leading) {
                 Text(destination.name)
