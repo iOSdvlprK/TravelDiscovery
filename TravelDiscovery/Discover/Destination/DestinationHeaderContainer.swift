@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct DestinationHeaderContainer: UIViewControllerRepresentable {
-    let imageNames: [String]
+    let imageUrlStrings: [String]
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let pvc = CustomPageViewController(imageNames: imageNames)
+        let pvc = CustomPageViewController(imageUrlStrings: imageUrlStrings)
         return pvc
     }
     
@@ -51,14 +52,16 @@ class CustomPageViewController: UIPageViewController, UIPageViewControllerDataSo
 //    ]
     var allControllers: [UIViewController] = []
     
-    init(imageNames: [String]) {
+    init(imageUrlStrings: [String]) {
         UIPageControl.appearance().pageIndicatorTintColor = UIColor.systemGray5
         UIPageControl.appearance().currentPageIndicatorTintColor = .red
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         
-        allControllers = imageNames.map({ imageName in
-            let hostingController = UIHostingController(rootView: Image(imageName)
+        allControllers = imageUrlStrings.map({ imageName in
+            let hostingController = UIHostingController(rootView:
+//                Text(imageName)
+                KFImage(URL(string: imageName))
                 .resizable()
                 .scaledToFill()
             )
@@ -78,8 +81,15 @@ class CustomPageViewController: UIPageViewController, UIPageViewControllerDataSo
 }
 
 struct DestinationHeaderContainer_Previews: PreviewProvider {
+    static let imageUrlStrings = [
+        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/2240d474-2237-4cd3-9919-562cd1bb439e",
+        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/b1642068-5624-41cf-83f1-3f6dff8c1702",
+        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/6982cc9d-3104-4a54-98d7-45ee5d117531"
+    ]
+    
     static var previews: some View {
-        DestinationHeaderContainer(imageNames: ["new_york", "japan", "eiffel_tower"])
+        DestinationHeaderContainer(imageUrlStrings: imageUrlStrings)
+            .frame(height: 350)
         NavigationStack {
             PopularDestinationDetailsView(destination: Destination(name: "Paris", country: "France", imageName: "eiffel_tower", latitude: 48.859565, longitude: 2.353235))
         }
