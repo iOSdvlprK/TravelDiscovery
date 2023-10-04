@@ -45,7 +45,41 @@ struct PopularDestinationsView: View {
     }
 }
 
+struct DestinationDetails: Decodable {
+    let description: String
+    let photos: [String]
+}
+
+class DestinationDetailsViewModel: ObservableObject {
+    @Published var isLoading = true
+    @Published var destinationDetails: DestinationDetails?
+    
+    init(name: String) {
+        // make a network call
+//        let name = "paris"
+        let fixedUrlString = "https://travel.letsbuildthatapp.com/travel_discovery/destination?name=\(name.lowercased())".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        guard let url = URL(string: fixedUrlString) else { return }
+        URLSession.shared.dataTask(with: url) { data, resp, err in
+            // make sure to check err & resp
+            
+            DispatchQueue.main.async {
+                guard let data = data else { return }
+                //            print(String(data: data, encoding: .utf8))
+                
+                do {
+                    self.destinationDetails = try JSONDecoder().decode(DestinationDetails.self, from: data)
+                    //                print(details.photos)
+                } catch {
+                    print("Failed to decode JSON,", error)
+                }
+            }
+        }.resume()
+    }
+}
+
 struct PopularDestinationDetailsView: View {
+    @ObservedObject var vm: DestinationDetailsViewModel
+    
     let destination: Destination
     
     @State private var region: MKCoordinateRegion
@@ -54,20 +88,26 @@ struct PopularDestinationDetailsView: View {
     init(destination: Destination) {
         self.destination = destination
         self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+        self.vm = DestinationDetailsViewModel(name: destination.name)
         navigationBarInitialization()
     }
     
+    /*
     let imageUrlStrings = [
         "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/2240d474-2237-4cd3-9919-562cd1bb439e",
         "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/b1642068-5624-41cf-83f1-3f6dff8c1702",
         "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/6982cc9d-3104-4a54-98d7-45ee5d117531"
     ]
+    */
     
     var body: some View {
         ScrollView {
 //            DestinationHeaderContainer(imageNames: ["eiffel_tower", "art1", "art2"])
-            DestinationHeaderContainer(imageUrlStrings: imageUrlStrings)
-                .frame(height: 350)
+//            DestinationHeaderContainer(imageUrlStrings: imageUrlStrings)
+            if let photos = vm.destinationDetails?.photos {
+                DestinationHeaderContainer(imageUrlStrings: photos)
+                    .frame(height: 350)
+            }
             
             VStack(alignment: .leading) {
                 Text(destination.name)
@@ -82,7 +122,7 @@ struct PopularDestinationDetailsView: View {
                     }
                 }
                 
-                Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.")
+                Text(vm.destinationDetails?.description ?? "")
                     .padding(.top, 4)
                     .font(.system(size: 17))
                 
