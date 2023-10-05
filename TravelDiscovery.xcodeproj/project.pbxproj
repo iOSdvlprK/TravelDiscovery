@@ -27,6 +27,7 @@
 		D8AE4D222AC31D39009BB0C1 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D212AC31D39009BB0C1 /* CategoryDetailsView.swift */; };
 		D8AE4D242AC31DF8009BB0C1 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D232AC31DF8009BB0C1 /* ActivityIndicatorView.swift */; };
 		D8AE4D262AC31E56009BB0C1 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D252AC31E56009BB0C1 /* Place.swift */; };
+		D8FF6CC42ACDC08800351683 /* RestaurantDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		D8AE4D212AC31D39009BB0C1 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		D8AE4D232AC31DF8009BB0C1 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		D8AE4D252AC31E56009BB0C1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 		D839EAAC2AC076DA006BA225 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				D8FF6CC22ACDC06000351683 /* Restaurant */,
 				D89696D22AC9B0C600537165 /* Destination */,
 				D8AE4D202AC31D23009BB0C1 /* Category */,
 				D839EA9F2ABEBD1C006BA225 /* DiscoverView.swift */,
@@ -153,6 +156,14 @@
 				D8AE4D212AC31D39009BB0C1 /* CategoryDetailsView.swift */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		D8FF6CC22ACDC06000351683 /* Restaurant */ = {
+			isa = PBXGroup;
+			children = (
+				D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */,
+			);
+			path = Restaurant;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +250,7 @@
 				D839EAAE2AC08385006BA225 /* PopularDestinationsView.swift in Sources */,
 				D839EAB42AC08615006BA225 /* TrendingCreatorsView.swift in Sources */,
 				D839EAB02AC084B2006BA225 /* PopularRestaurantsView.swift in Sources */,
+				D8FF6CC42ACDC08800351683 /* RestaurantDetailsView.swift in Sources */,
 				D8AE4D262AC31E56009BB0C1 /* Place.swift in Sources */,
 				D839EAB92AC08724006BA225 /* Restaurant.swift in Sources */,
 				D839EABB2AC08757006BA225 /* Category.swift in Sources */,

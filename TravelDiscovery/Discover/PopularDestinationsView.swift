@@ -126,7 +126,7 @@ struct PopularDestinationDetailsView: View {
                     .padding(.top, 4)
                     .font(.system(size: 17))
                 
-                HStack { Spacer() }
+//                HStack { Spacer() }
             }
             .padding(.horizontal)
             
