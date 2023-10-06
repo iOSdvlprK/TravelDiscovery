@@ -28,6 +28,7 @@
 		D8AE4D222AC31D39009BB0C1 /* CategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D212AC31D39009BB0C1 /* CategoryDetailsView.swift */; };
 		D8AE4D242AC31DF8009BB0C1 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D232AC31DF8009BB0C1 /* ActivityIndicatorView.swift */; };
 		D8AE4D262AC31E56009BB0C1 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8AE4D252AC31E56009BB0C1 /* Place.swift */; };
+		D8FE57CF2AD0704D00495508 /* RestaurantCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE57CE2AD0704D00495508 /* RestaurantCarouselView.swift */; };
 		D8FF6CC42ACDC08800351683 /* RestaurantDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		D8AE4D212AC31D39009BB0C1 /* CategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailsView.swift; sourceTree = "<group>"; };
 		D8AE4D232AC31DF8009BB0C1 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		D8AE4D252AC31E56009BB0C1 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		D8FE57CE2AD0704D00495508 /* RestaurantCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantCarouselView.swift; sourceTree = "<group>"; };
 		D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +167,7 @@
 			children = (
 				D8FF6CC32ACDC08800351683 /* RestaurantDetailsView.swift */,
 				D8690FC82ACFE8E400103417 /* RestaurantPhotosView.swift */,
+				D8FE57CE2AD0704D00495508 /* RestaurantCarouselView.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				D800000A2AC5C5B700CD8472 /* Extensions.swift in Sources */,
 				D839EABD2AC08771006BA225 /* User.swift in Sources */,
 				D839EAB72AC086D7006BA225 /* Destination.swift in Sources */,
+				D8FE57CF2AD0704D00495508 /* RestaurantCarouselView.swift in Sources */,
 				D8AE4D242AC31DF8009BB0C1 /* ActivityIndicatorView.swift in Sources */,
 				D8690FC92ACFE8E400103417 /* RestaurantPhotosView.swift in Sources */,
 				D8AE4D222AC31D39009BB0C1 /* CategoryDetailsView.swift in Sources */,

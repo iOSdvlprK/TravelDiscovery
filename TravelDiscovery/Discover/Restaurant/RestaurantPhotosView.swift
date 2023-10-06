@@ -39,6 +39,7 @@ struct RestaurantPhotosView: View {
     }
     
     @State private var mode = "grid"
+    @State private var shouldShowFullscreenModal = false
     
     var body: some View {
         GeometryReader { proxy in
@@ -50,16 +51,39 @@ struct RestaurantPhotosView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
                 
+                Spacer()
+                    .fullScreenCover(isPresented: $shouldShowFullscreenModal, content: {
+                        ZStack(alignment: .topLeading) {
+                            Color.black
+                                .ignoresSafeArea()
+                            
+                            RestaurantCarouselContainer(imageUrlStrings: photoUrlStrings)
+                            
+                            Button(action: {
+                                shouldShowFullscreenModal.toggle()
+                            }, label: {
+                                Image(systemName: "xmark")
+                                    .font(.system(size: 32, weight: .bold))
+                                    .foregroundColor(.white)
+                                    .padding()
+                            })
+                        }
+                    })
+                
                 if mode == "grid" {
                     LazyVGrid(columns: [
                         GridItem(.adaptive(minimum: proxy.size.width / 3 - 4, maximum: 300), spacing: 2)
                     ], spacing: 4, content: {
                         ForEach(photoUrlStrings, id:\.self) { urlString in
-                            KFImage(URL(string: urlString))
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: proxy.size.width / 3 - 4, height: proxy.size.width / 3 - 4)
-                                .clipped()
+                            Button(action: {
+                                shouldShowFullscreenModal.toggle()
+                            }, label: {
+                                KFImage(URL(string: urlString))
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: proxy.size.width / 3 - 4, height: proxy.size.width / 3 - 4)
+                                    .clipped()
+                            })
                         }
                     })
                     .padding(.horizontal, 2)
