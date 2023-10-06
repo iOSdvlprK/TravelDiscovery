@@ -31,23 +31,66 @@ struct RestaurantPhotosView: View {
     
     init() {
         navigationBarInitialization()
+        UISegmentedControl.appearance().backgroundColor = .black
+        UISegmentedControl.appearance().selectedSegmentTintColor = .orange
+        let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .selected)
+        UISegmentedControl.appearance().setTitleTextAttributes(titleTextAttributes, for: .normal)
     }
+    
+    @State private var mode = "grid"
     
     var body: some View {
         GeometryReader { proxy in
             ScrollView {
-                LazyVGrid(columns: [
-                    GridItem(.adaptive(minimum: proxy.size.width / 3 - 4, maximum: 300), spacing: 2)
-                ], spacing: 4, content: {
+                Picker("TEST", selection: $mode) {
+                    Text("Grid").tag("grid")
+                    Text("List").tag("list")
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding()
+                
+                if mode == "grid" {
+                    LazyVGrid(columns: [
+                        GridItem(.adaptive(minimum: proxy.size.width / 3 - 4, maximum: 300), spacing: 2)
+                    ], spacing: 4, content: {
+                        ForEach(photoUrlStrings, id:\.self) { urlString in
+                            KFImage(URL(string: urlString))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: proxy.size.width / 3 - 4, height: proxy.size.width / 3 - 4)
+                                .clipped()
+                        }
+                    })
+                    .padding(.horizontal, 2)
+                } else {
                     ForEach(photoUrlStrings, id:\.self) { urlString in
-                        KFImage(URL(string: urlString))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: proxy.size.width / 3 - 4, height: proxy.size.width / 3 - 4)
-                            .clipped()
+                        VStack(alignment: .leading, spacing: 8) {
+                            KFImage(URL(string: urlString))
+                                .resizable()
+                                .scaledToFill()
+                            HStack {
+                                Image(systemName: "heart")
+                                Image(systemName: "bubble.right")
+                                Image(systemName: "paperplane")
+                                Spacer()
+                                Image(systemName: "bookmark")
+                            }
+                            .padding(.horizontal, 8)
+                            .font(.system(size: 22))
+                            
+                            Text("Description for your post and it goes here, make sure to use a bunch of lines of text otherwise you never know what's going to happen.\n\nGreat job everyone")
+                                .font(.system(size: 15))
+                                .padding(.horizontal, 8)
+                            
+                            Text("Posted on 10/06/23")
+                                .font(.system(size: 15))
+                                .padding(.horizontal, 8)
+                                .foregroundColor(.gray)
+                        }
+                        .padding(.bottom)
                     }
-                })
-                .padding(.horizontal, 2)
+                }
             }
         }
         .navigationTitle("All Photos")
