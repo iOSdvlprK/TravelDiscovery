@@ -40,6 +40,7 @@ struct RestaurantPhotosView: View {
     
     @State private var mode = "grid"
     @State private var shouldShowFullscreenModal = false
+    @State private var selectedPhotoIndex = 0
     
     var body: some View {
         GeometryReader { proxy in
@@ -57,7 +58,7 @@ struct RestaurantPhotosView: View {
                             Color.black
                                 .ignoresSafeArea()
                             
-                            RestaurantCarouselContainer(imageUrlStrings: photoUrlStrings)
+                            RestaurantCarouselContainer(imageUrlStrings: photoUrlStrings, selectedIndex: selectedPhotoIndex)
                             
                             Button(action: {
                                 shouldShowFullscreenModal.toggle()
@@ -69,6 +70,7 @@ struct RestaurantPhotosView: View {
                             })
                         }
                     })
+                    .opacity(shouldShowFullscreenModal ? 1 : 0)
                 
                 if mode == "grid" {
                     LazyVGrid(columns: [
@@ -76,6 +78,7 @@ struct RestaurantPhotosView: View {
                     ], spacing: 4, content: {
                         ForEach(photoUrlStrings, id:\.self) { urlString in
                             Button(action: {
+                                self.selectedPhotoIndex = photoUrlStrings.firstIndex(of: urlString) ?? 0
                                 shouldShowFullscreenModal.toggle()
                             }, label: {
                                 KFImage(URL(string: urlString))
