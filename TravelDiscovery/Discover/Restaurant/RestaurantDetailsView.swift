@@ -55,6 +55,8 @@ class RestaurantDetailsViewModel: ObservableObject {
 struct RestaurantDetailsView: View {
     @ObservedObject var vm = RestaurantDetailsViewModel()
     
+    @State private var isMorePhotosTappedOn = false
+    
     let restaurant: Restaurant
     
     init(restaurant: Restaurant) {
@@ -87,7 +89,14 @@ struct RestaurantDetailsView: View {
                     
                     Spacer()
                     
-                    NavigationLink(value: restaurant, label: {
+//                    NavigationLink(value: restaurant, label: {
+//                        Text("See more photos")
+//                            .foregroundColor(.white)
+//                            .font(.system(size: 15, weight: .regular))
+//                            .frame(width: 80)
+//                            .multilineTextAlignment(.trailing)
+//                    })
+                    Button(action: { isMorePhotosTappedOn.toggle() }, label: {
                         Text("See more photos")
                             .foregroundColor(.white)
                             .font(.system(size: 15, weight: .regular))
@@ -97,9 +106,12 @@ struct RestaurantDetailsView: View {
                 }
                 .padding()
             }
-            .navigationDestination(for: Restaurant.self) { restaurant in
+//            .navigationDestination(for: Restaurant.self) { restaurant in
+//                RestaurantPhotosView()
+//            }
+            .navigationDestination(isPresented: $isMorePhotosTappedOn, destination: {
                 RestaurantPhotosView()
-            }
+            })
             
             VStack(alignment: .leading, spacing: 8) {
                 Text("Location & Description")
