@@ -8,8 +8,47 @@
 import SwiftUI
 import Kingfisher
 
+struct UserDetails: Decodable {
+    let username, firstName, lastName, profileImage: String
+    let followers, following: Int
+    let posts: [Post]
+}
+
+struct Post: Decodable, Hashable {
+    let title, imageUrl, views: String
+    let hashtags: [String]
+}
+
+class UserDetailsViewModel: ObservableObject {
+    @Published var userDetails: UserDetails?
+    
+    init(userId: Int) {
+        guard let url = URL(string: "https://travel.letsbuildthatapp.com/travel_discovery/user?id=\(userId)") else { return }
+        
+        URLSession.shared.dataTask(with: url) { data, resp, err in
+            DispatchQueue.main.async {
+                guard let data = data else { return }
+                
+                do {
+                    self.userDetails = try JSONDecoder().decode(UserDetails.self, from: data)
+                } catch let jsonError {
+                    print("Decoding failed for UserDetails:", jsonError)
+                }
+                print(data)
+            }
+        }.resume()
+    }
+}
+
 struct UserDetailsView: View {
+    @ObservedObject var vm: UserDetailsViewModel
+    
     let user: User
+    
+    init(user: User) {
+        self.user = user
+        self.vm = UserDetailsViewModel(userId: user.id)
+    }
     
     var body: some View {
         ScrollView {
@@ -23,15 +62,17 @@ struct UserDetailsView: View {
                     .padding(.horizontal)
                     .padding(.top)
                 
-                Text(user.name)
+                Text("\(self.vm.userDetails?.firstName ?? "") \(self.vm.userDetails?.lastName ?? "")")
                     .font(.system(size: 15, weight: .semibold))
                 
                 HStack {
                     // Opt + 8: •
-                    Text("@amyadams20 •")
+                    Text("@\(self.vm.userDetails?.username ?? "") •")
                     Image(systemName: "hand.thumbsup.fill")
                         .font(.system(size: 11, weight: .semibold))
-                    Text("2541")
+                    if let thumsup = self.vm.userDetails?.following {
+                        Text("\(thumsup + 429)")
+                    }
                 }
                 .font(.system(size: 13, weight: .regular))
                 
@@ -41,7 +82,7 @@ struct UserDetailsView: View {
                 
                 HStack(spacing: 12) {
                     VStack {
-                        Text("59,394")
+                        Text("\(self.vm.userDetails?.followers ?? 0)")
                             .font(.system(size: 14, weight: .semibold))
                         Text("Followers")
                             .font(.system(size: 10, weight: .regular))
@@ -52,7 +93,7 @@ struct UserDetailsView: View {
                         .background(Color(.lightGray))
                     
                     VStack {
-                        Text("2,112")
+                        Text("\(self.vm.userDetails?.following ?? 0)")
                             .font(.system(size: 14, weight: .semibold))
                         Text("Following")
                             .font(.system(size: 10, weight: .regular))
@@ -86,27 +127,26 @@ struct UserDetailsView: View {
                 }
                 .font(.system(size: 12, weight: .semibold))
                 
-                ForEach(0..<10, id: \.self) { num in
+                ForEach(vm.userDetails?.posts ?? [], id: \.self) { post in
                     VStack(alignment: .leading) {
-//                        Image("art2")
-                        KFImage(URL(string: "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/6982cc9d-3104-4a54-98d7-45ee5d117531"))
+                        KFImage(URL(string: post.imageUrl))
                             .resizable()
                             .scaledToFill()
                             .frame(height: 200)
                             .clipped()
                         
                         HStack {
-                            Image("amy")
+                            Image(user.imageName)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 34)
                                 .clipShape(Circle())
                             
                             VStack(alignment: .leading) {
-                                Text("Here is my post title")
+                                Text(post.title)
                                     .font(.system(size: 13, weight: .semibold))
                                 
-                                Text("500k views")
+                                Text("\(post.views) views")
                                     .font(.system(size: 12, weight: .semibold))
                                     .foregroundColor(.gray)
                             }
@@ -114,10 +154,10 @@ struct UserDetailsView: View {
                         .padding(.horizontal, 8)
                         
                         HStack {
-                            ForEach(0..<3, id: \.self) { num in
-                                Text("#Traveling")
+                            ForEach(post.hashtags, id: \.self) { hashtag in
+                                Text("#\(hashtag)")
                                     .foregroundColor(Color(red: 7/255, green: 126/255, blue: 254/255))
-                                    .font(.system(size: 14, weight: .semibold))
+                                    .font(.system(size: 13, weight: .semibold))
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 4)
                                     .background(Color(red: 232/255, green: 237/255, blue: 251/255, opacity: 1))
@@ -141,8 +181,9 @@ struct UserDetailsView: View {
 
 struct UserDetailsView_Previews: PreviewProvider {
     static var previews: some View {
+        DiscoverView()
         NavigationStack {
-            UserDetailsView(user: User(name: "Amy Adams", imageName: "amy"))
+            UserDetailsView(user: User(id: 0, name: "Amy Adams", imageName: "amy"))
         }
     }
 }

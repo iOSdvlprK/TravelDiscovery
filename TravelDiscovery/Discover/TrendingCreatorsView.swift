@@ -9,9 +9,9 @@ import SwiftUI
 
 struct TrendingCreatorsView: View {
     let users = [
-        User(name: "Amy Adams", imageName: "amy"),
-        User(name: "Billy", imageName: "billy"),
-        User(name: "Sam Smith", imageName: "sam")
+        User(id: 0, name: "Amy Adams", imageName: "amy"),
+        User(id: 1, name: "Billy", imageName: "billy"),
+        User(id: 2, name: "Sam Smith", imageName: "sam")
     ]
     
     var body: some View {
