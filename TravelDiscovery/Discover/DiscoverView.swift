@@ -9,21 +9,16 @@ import SwiftUI
 
 extension Color {
     static let discoverBackground = Color(white: 0.95, opacity: 1)
+    static let defaultBackground = Color("defaultBackground")
+    static let tileBackground = Color("tileBackground")
 }
 
 struct DiscoverView: View {
     init() {
-//        UINavigationBar.appearance().largeTitleTextAttributes = [
-//            .foregroundColor: UIColor.white
-//        ]
-        
-        // https://stackoverflow.com/a/74369067/4999901
-        let coloredAppearance = UINavigationBarAppearance()
-//        coloredAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        coloredAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        UINavigationBar.appearance().standardAppearance = coloredAppearance
+        navigationBarInitialization()
     }
+    
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack {
@@ -31,7 +26,7 @@ struct DiscoverView: View {
                 LinearGradient(gradient: Gradient(colors: [Color(#colorLiteral(red: 0.9882131219, green: 0.6823856831, blue: 0.2509839535, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.5366613865, blue: 0.2347321808, alpha: 1))]), startPoint: .top, endPoint: .center)
                     .ignoresSafeArea()
                 
-                Color.discoverBackground
+                Color.defaultBackground
                     .offset(y: 400)
                 
                 ScrollView {
@@ -54,7 +49,8 @@ struct DiscoverView: View {
                         PopularRestaurantsView()
                         TrendingCreatorsView()
                     }
-                    .background(Color.discoverBackground)
+                    // .background(colorScheme == .light ? Color.discoverBackground : Color.black)
+                    .background(Color.defaultBackground)
                     .cornerRadius(16)
                     .padding(.top, 32)
                 }
@@ -70,5 +66,8 @@ struct DiscoverView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         DiscoverView()
+            .preferredColorScheme(.dark)
+        DiscoverView()
+            .preferredColorScheme(.light)
     }
 }
