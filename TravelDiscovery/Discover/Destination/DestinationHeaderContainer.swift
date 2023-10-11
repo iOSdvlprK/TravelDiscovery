@@ -43,13 +43,6 @@ class CustomPageViewController: UIPageViewController, UIPageViewControllerDataSo
         return allControllers[index + 1]
     }
     
-//    let firstVC = UIHostingController(rootView: Text("First View Controller"))
-//    let secondVC = UIHostingController(rootView: Text("Second View Controller"))
-//    let thirdVC = UIHostingController(rootView: Text("Third View Controller"))
-//
-//    lazy var allControllers: [UIViewController] = [
-//        firstVC, secondVC, thirdVC
-//    ]
     var allControllers: [UIViewController] = []
     
     init(imageUrlStrings: [String]) {

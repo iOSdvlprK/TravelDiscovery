@@ -60,20 +60,6 @@ struct DiscoverCategoriesView: View {
 
 struct DiscoverCategoriesView_Previews: PreviewProvider {
     static var previews: some View {
-//        ZStack {
-//            Color.orange
-//            DiscoverCategoriesView()
-//        }
         DiscoverView()
-        /*
-        NavigationView {
-            NavigationLink(
-                destination: Text("Destination"),
-                label: {
-                    Text("Link")
-                }
-            )
-        }
-        */
     }
 }

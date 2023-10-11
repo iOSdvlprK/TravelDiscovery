@@ -81,7 +81,6 @@ struct RestaurantTile: View {
             Spacer()
         }
         .frame(width: 240)
-//                        .modifier(TileModifier())
         .asTile()
         .padding(.bottom)
     }

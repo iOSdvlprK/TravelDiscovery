@@ -56,7 +56,7 @@ class DestinationDetailsViewModel: ObservableObject {
     
     init(name: String) {
         // make a network call
-//        let name = "paris"
+        
         let fixedUrlString = "https://travel.letsbuildthatapp.com/travel_discovery/destination?name=\(name.lowercased())".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         guard let url = URL(string: fixedUrlString) else { return }
         URLSession.shared.dataTask(with: url) { data, resp, err in
@@ -68,7 +68,6 @@ class DestinationDetailsViewModel: ObservableObject {
                 
                 do {
                     self.destinationDetails = try JSONDecoder().decode(DestinationDetails.self, from: data)
-                    //                print(details.photos)
                 } catch {
                     print("Failed to decode JSON,", error)
                 }
@@ -92,18 +91,8 @@ struct PopularDestinationDetailsView: View {
         navigationBarInitialization()
     }
     
-    /*
-    let imageUrlStrings = [
-        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/2240d474-2237-4cd3-9919-562cd1bb439e",
-        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/b1642068-5624-41cf-83f1-3f6dff8c1702",
-        "https://letsbuildthatapp-videos.s3-us-west-2.amazonaws.com/6982cc9d-3104-4a54-98d7-45ee5d117531"
-    ]
-    */
-    
     var body: some View {
         ScrollView {
-//            DestinationHeaderContainer(imageNames: ["eiffel_tower", "art1", "art2"])
-//            DestinationHeaderContainer(imageUrlStrings: imageUrlStrings)
             if let photos = vm.destinationDetails?.photos {
                 DestinationHeaderContainer(imageUrlStrings: photos)
                     .frame(height: 350)
@@ -147,7 +136,6 @@ struct PopularDestinationDetailsView: View {
             .padding(.horizontal)
             
             Map(coordinateRegion: $region, annotationItems: isShowingAttractions ? attractions : []) { attraction in
-//                MapMarker(coordinate: CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude), tint: .red)
                 MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: attraction.latitude, longitude: attraction.longitude)) {
                     CustomMapAnnotation(attraction: attraction)
                 }
@@ -237,7 +225,6 @@ struct PopularDestinationsView_Previews: PreviewProvider {
         
         NavigationStack {
             PopularDestinationDetailsView(destination: Destination(name: "Paris", country: "France", imageName: "eiffel_tower", latitude: 48.859565, longitude: 2.353235))
-//            PopularDestinationDetailsView(destination: Destination(name: "Tokyo", country: "Japan", imageName: "japan", latitude: 35.679693, longitude: 139.771913))
         }
         DiscoverView()
     }

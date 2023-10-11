@@ -49,16 +49,12 @@ struct DiscoverView: View {
                         PopularRestaurantsView()
                         TrendingCreatorsView()
                     }
-                    // .background(colorScheme == .light ? Color.discoverBackground : Color.black)
                     .background(Color.defaultBackground)
                     .cornerRadius(16)
                     .padding(.top, 32)
                 }
             }
             .navigationTitle("Discover")
-            // .navigationBarTitleDisplayMode(.inline)
-            // .toolbarBackground(Color.clear, for: .navigationBar)
-            // .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 }

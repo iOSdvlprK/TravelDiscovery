@@ -89,13 +89,6 @@ struct RestaurantDetailsView: View {
                     
                     Spacer()
                     
-//                    NavigationLink(value: restaurant, label: {
-//                        Text("See more photos")
-//                            .foregroundColor(.white)
-//                            .font(.system(size: 15, weight: .regular))
-//                            .frame(width: 80)
-//                            .multilineTextAlignment(.trailing)
-//                    })
                     Button(action: { isMorePhotosTappedOn.toggle() }, label: {
                         Text("See more photos")
                             .foregroundColor(.white)
@@ -106,9 +99,6 @@ struct RestaurantDetailsView: View {
                 }
                 .padding()
             }
-//            .navigationDestination(for: Restaurant.self) { restaurant in
-//                RestaurantPhotosView()
-//            }
             .navigationDestination(isPresented: $isMorePhotosTappedOn, destination: {
                 RestaurantPhotosView()
             })
@@ -155,13 +145,6 @@ struct RestaurantDetailsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navBarInit()
     }
-    
-    /*
-    let sampleDishPhotos = [
-        "https://letsbuildthatapp-videos.s3.us-west-2.amazonaws.com/0d1d2e79-2f10-4cfd-82da-a1c2ab3638d2",
-        "https://letsbuildthatapp-videos.s3.us-west-2.amazonaws.com/3a352f87-3dc1-4fa7-affe-fb12fa8691fe"
-    ]
-    */
 }
 
 struct ReviewsList: View {
@@ -176,46 +159,44 @@ struct ReviewsList: View {
         .padding(.horizontal)
         .padding(.top)
         
-//        if let reviews = vm.details?.reviews {
-            ForEach(reviews, id: \.self) { review in
-                VStack(alignment: .leading) {
-                    HStack {
-                        KFImage(URL(string: review.user.profileImage))
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 44)
-                            .clipShape(Circle())
+        ForEach(reviews, id: \.self) { review in
+            VStack(alignment: .leading) {
+                HStack {
+                    KFImage(URL(string: review.user.profileImage))
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 44)
+                        .clipShape(Circle())
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("\(review.user.firstName) \(review.user.lastName)")
+                            .font(.system(size: 14, weight: .bold))
                         
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("\(review.user.firstName) \(review.user.lastName)")
-                                .font(.system(size: 14, weight: .bold))
+                        HStack(spacing: 3) {
+                            ForEach(0..<review.rating, id: \.self) { num in
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.orange)
+                                    .font(.system(size: 12))
+                            }
                             
-                            HStack(spacing: 3) {
-                                ForEach(0..<review.rating, id: \.self) { num in
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.orange)
-                                        .font(.system(size: 12))
-                                }
-                                
-                                ForEach(0..<5 - review.rating, id: \.self) { num in
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.gray)
-                                        .font(.system(size: 12))
-                                }
+                            ForEach(0..<5 - review.rating, id: \.self) { num in
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.gray)
+                                    .font(.system(size: 12))
                             }
                         }
-                        
-                        Spacer()
-                        Text("Oct 2023")
-                            .font(.system(size: 14, weight: .bold))
                     }
-                    Text(review.text)
-                        .font(.system(size: 14, weight: .regular))
+                    
+                    Spacer()
+                    Text("Oct 2023")
+                        .font(.system(size: 14, weight: .bold))
                 }
-                .padding(.top)
-                .padding(.horizontal)
+                Text(review.text)
+                    .font(.system(size: 14, weight: .regular))
             }
-//        }
+            .padding(.top)
+            .padding(.horizontal)
+        }
     }
 }
 
